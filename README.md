@@ -3,7 +3,7 @@
 ## Preparations
 
 Please make sure you have terraform correctly downloaded and you are able to run terraform command on CMD.
-Navigate to the folder where you download all the .tf files from this repo, and run the following command to start:
+Navigate to the folder where you download all the .tf files(for example, the ELB_ASG folde) from this repo, and run the following command to start:
 
 ```sh
 terraform init
