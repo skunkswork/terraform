@@ -1,0 +1,1 @@
+terraform graph | dot -Tsvg > graph.svg

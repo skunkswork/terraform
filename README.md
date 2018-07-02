@@ -1,0 +1,1 @@
+# Cloud Adopter - Terraform Playground
