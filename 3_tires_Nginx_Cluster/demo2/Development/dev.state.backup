@@ -1,0 +1,715 @@
+{
+    "version": 3,
+    "terraform_version": "0.11.7",
+    "serial": 27,
+    "lineage": "ff9605d3-d397-48fa-5a10-a00447583fd9",
+    "modules": [
+        {
+            "path": [
+                "root"
+            ],
+            "outputs": {
+                "aws_elb_public_dns": {
+                    "sensitive": false,
+                    "type": "string",
+                    "value": "dev-nginx-elb-1584869196.us-east-2.elb.amazonaws.com"
+                },
+                "azure_rm_dns_cname": {
+                    "sensitive": false,
+                    "type": "string",
+                    "value": "/subscriptions/fabfe1d3-22bf-4474-bfde-0a3d37c93cfd/resourceGroups/DockerizeDCT/providers/Microsoft.Network/dnszones/atdc.ml/CNAME/dev-web"
+                }
+            },
+            "resources": {
+                "aws_elb.web": {
+                    "type": "aws_elb",
+                    "depends_on": [
+                        "aws_instance.nginx.*",
+                        "aws_security_group.elb-sg",
+                        "aws_subnet.subnet.*"
+                    ],
+                    "primary": {
+                        "id": "dev-nginx-elb",
+                        "attributes": {
+                            "access_logs.#": "0",
+                            "arn": "arn:aws:elasticloadbalancing:us-east-2:211231947419:loadbalancer/dev-nginx-elb",
+                            "availability_zones.#": "2",
+                            "availability_zones.1726430690": "us-east-2b",
+                            "availability_zones.4293815384": "us-east-2a",
+                            "connection_draining": "false",
+                            "connection_draining_timeout": "300",
+                            "cross_zone_load_balancing": "true",
+                            "dns_name": "dev-nginx-elb-1584869196.us-east-2.elb.amazonaws.com",
+                            "health_check.#": "1",
+                            "health_check.0.healthy_threshold": "10",
+                            "health_check.0.interval": "30",
+                            "health_check.0.target": "TCP:80",
+                            "health_check.0.timeout": "5",
+                            "health_check.0.unhealthy_threshold": "2",
+                            "id": "dev-nginx-elb",
+                            "idle_timeout": "60",
+                            "instances.#": "2",
+                            "instances.1276924791": "i-061a471c76e864dd4",
+                            "instances.3087916115": "i-031db80033a105d48",
+                            "internal": "false",
+                            "listener.#": "1",
+                            "listener.3057123346.instance_port": "80",
+                            "listener.3057123346.instance_protocol": "http",
+                            "listener.3057123346.lb_port": "80",
+                            "listener.3057123346.lb_protocol": "http",
+                            "listener.3057123346.ssl_certificate_id": "",
+                            "name": "dev-nginx-elb",
+                            "security_groups.#": "1",
+                            "security_groups.1990098299": "sg-ea034480",
+                            "source_security_group": "211231947419/nginx_elb_sg",
+                            "source_security_group_id": "sg-ea034480",
+                            "subnets.#": "2",
+                            "subnets.2084430016": "subnet-188adf70",
+                            "subnets.3784437951": "subnet-32ce4c48",
+                            "tags.%": "3",
+                            "tags.BillingCode": "ACCT0001",
+                            "tags.Environment": "dev",
+                            "tags.Name": "dev-elb",
+                            "zone_id": "Z3AADJGX6KTTL2"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_iam_access_key.write_user": {
+                    "type": "aws_iam_access_key",
+                    "depends_on": [
+                        "aws_iam_user.write_user"
+                    ],
+                    "primary": {
+                        "id": "AKIAJYO6PD3DSPXZJJ7A",
+                        "attributes": {
+                            "id": "AKIAJYO6PD3DSPXZJJ7A",
+                            "secret": "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",
+                            "ses_smtp_password": "AjZmq/UXjjW7vcJH6dBDIB6lAiyMDMn6MoP35+maKeAs",
+                            "status": "Active",
+                            "user": "dev-s3-write-user"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_iam_user.write_user": {
+                    "type": "aws_iam_user",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "dev-s3-write-user",
+                        "attributes": {
+                            "arn": "arn:aws:iam::211231947419:user/dev-s3-write-user",
+                            "force_destroy": "true",
+                            "id": "dev-s3-write-user",
+                            "name": "dev-s3-write-user",
+                            "path": "/",
+                            "unique_id": "AIDAIUQFU7X24JN5Q6NKW"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_iam_user_policy.write_user_pol": {
+                    "type": "aws_iam_user_policy",
+                    "depends_on": [
+                        "aws_iam_user.write_user"
+                    ],
+                    "primary": {
+                        "id": "dev-s3-write-user:write",
+                        "attributes": {
+                            "id": "dev-s3-write-user:write",
+                            "name": "write",
+                            "policy": "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": \"s3:*\",\n            \"Resource\": [\n                \"arn:aws:s3:::dev-tongalish123\",\n                \"arn:aws:s3:::dev-tongalish123/*\"\n            ]\n        }\n   ]\n}\n",
+                            "user": "dev-s3-write-user"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_instance.nginx.0": {
+                    "type": "aws_instance",
+                    "depends_on": [
+                        "aws_iam_access_key.write_user",
+                        "aws_s3_bucket.web_bucket",
+                        "aws_security_group.nginx-sg",
+                        "aws_subnet.subnet.*"
+                    ],
+                    "primary": {
+                        "id": "i-061a471c76e864dd4",
+                        "attributes": {
+                            "ami": "ami-40142d25",
+                            "associate_public_ip_address": "true",
+                            "availability_zone": "us-east-2a",
+                            "credit_specification.#": "1",
+                            "credit_specification.0.cpu_credits": "standard",
+                            "disable_api_termination": "false",
+                            "ebs_block_device.#": "0",
+                            "ebs_optimized": "false",
+                            "ephemeral_block_device.#": "0",
+                            "get_password_data": "false",
+                            "iam_instance_profile": "",
+                            "id": "i-061a471c76e864dd4",
+                            "instance_state": "running",
+                            "instance_type": "t2.micro",
+                            "ipv6_addresses.#": "0",
+                            "key_name": "comp2",
+                            "monitoring": "false",
+                            "network_interface.#": "0",
+                            "network_interface_id": "eni-43b31013",
+                            "password_data": "",
+                            "placement_group": "",
+                            "primary_network_interface_id": "eni-43b31013",
+                            "private_dns": "ip-10-1-1-18.us-east-2.compute.internal",
+                            "private_ip": "10.1.1.18",
+                            "public_dns": "",
+                            "public_ip": "18.219.67.99",
+                            "root_block_device.#": "1",
+                            "root_block_device.0.delete_on_termination": "true",
+                            "root_block_device.0.iops": "100",
+                            "root_block_device.0.volume_id": "vol-00209747cc3295c33",
+                            "root_block_device.0.volume_size": "8",
+                            "root_block_device.0.volume_type": "gp2",
+                            "security_groups.#": "0",
+                            "source_dest_check": "true",
+                            "subnet_id": "subnet-188adf70",
+                            "tags.%": "3",
+                            "tags.BillingCode": "ACCT0001",
+                            "tags.Environment": "dev",
+                            "tags.Name": "dev-skunk-1",
+                            "tenancy": "default",
+                            "volume_tags.%": "0",
+                            "vpc_security_group_ids.#": "1",
+                            "vpc_security_group_ids.1419509300": "sg-f9024593"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 600000000000,
+                                "delete": 1200000000000,
+                                "update": 600000000000
+                            },
+                            "schema_version": "1"
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_instance.nginx.1": {
+                    "type": "aws_instance",
+                    "depends_on": [
+                        "aws_iam_access_key.write_user",
+                        "aws_s3_bucket.web_bucket",
+                        "aws_security_group.nginx-sg",
+                        "aws_subnet.subnet.*"
+                    ],
+                    "primary": {
+                        "id": "i-031db80033a105d48",
+                        "attributes": {
+                            "ami": "ami-40142d25",
+                            "associate_public_ip_address": "true",
+                            "availability_zone": "us-east-2b",
+                            "credit_specification.#": "1",
+                            "credit_specification.0.cpu_credits": "standard",
+                            "disable_api_termination": "false",
+                            "ebs_block_device.#": "0",
+                            "ebs_optimized": "false",
+                            "ephemeral_block_device.#": "0",
+                            "get_password_data": "false",
+                            "iam_instance_profile": "",
+                            "id": "i-031db80033a105d48",
+                            "instance_state": "running",
+                            "instance_type": "t2.micro",
+                            "ipv6_addresses.#": "0",
+                            "key_name": "comp2",
+                            "monitoring": "false",
+                            "network_interface.#": "0",
+                            "network_interface_id": "eni-03b32954",
+                            "password_data": "",
+                            "placement_group": "",
+                            "primary_network_interface_id": "eni-03b32954",
+                            "private_dns": "ip-10-1-2-90.us-east-2.compute.internal",
+                            "private_ip": "10.1.2.90",
+                            "public_dns": "",
+                            "public_ip": "18.191.2.130",
+                            "root_block_device.#": "1",
+                            "root_block_device.0.delete_on_termination": "true",
+                            "root_block_device.0.iops": "100",
+                            "root_block_device.0.volume_id": "vol-0d795ce179b881aee",
+                            "root_block_device.0.volume_size": "8",
+                            "root_block_device.0.volume_type": "gp2",
+                            "security_groups.#": "0",
+                            "source_dest_check": "true",
+                            "subnet_id": "subnet-32ce4c48",
+                            "tags.%": "3",
+                            "tags.BillingCode": "ACCT0001",
+                            "tags.Environment": "dev",
+                            "tags.Name": "dev-skunk-2",
+                            "tenancy": "default",
+                            "volume_tags.%": "0",
+                            "vpc_security_group_ids.#": "1",
+                            "vpc_security_group_ids.1419509300": "sg-f9024593"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 600000000000,
+                                "delete": 1200000000000,
+                                "update": 600000000000
+                            },
+                            "schema_version": "1"
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_internet_gateway.igw": {
+                    "type": "aws_internet_gateway",
+                    "depends_on": [
+                        "aws_vpc.vpc"
+                    ],
+                    "primary": {
+                        "id": "igw-df65afb7",
+                        "attributes": {
+                            "id": "igw-df65afb7",
+                            "tags.%": "3",
+                            "tags.BillingCode": "ACCT0001",
+                            "tags.Environment": "dev",
+                            "tags.Name": "dev-igw",
+                            "vpc_id": "vpc-619cbd09"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_route_table.rtb": {
+                    "type": "aws_route_table",
+                    "depends_on": [
+                        "aws_internet_gateway.igw",
+                        "aws_vpc.vpc"
+                    ],
+                    "primary": {
+                        "id": "rtb-4de70826",
+                        "attributes": {
+                            "id": "rtb-4de70826",
+                            "propagating_vgws.#": "0",
+                            "route.#": "1",
+                            "route.3976855227.cidr_block": "0.0.0.0/0",
+                            "route.3976855227.egress_only_gateway_id": "",
+                            "route.3976855227.gateway_id": "igw-df65afb7",
+                            "route.3976855227.instance_id": "",
+                            "route.3976855227.ipv6_cidr_block": "",
+                            "route.3976855227.nat_gateway_id": "",
+                            "route.3976855227.network_interface_id": "",
+                            "route.3976855227.vpc_peering_connection_id": "",
+                            "tags.%": "3",
+                            "tags.BillingCode": "ACCT0001",
+                            "tags.Environment": "dev",
+                            "tags.Name": "dev-rtb",
+                            "vpc_id": "vpc-619cbd09"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_route_table_association.rta-subnet.0": {
+                    "type": "aws_route_table_association",
+                    "depends_on": [
+                        "aws_route_table.rtb",
+                        "aws_subnet.subnet.*"
+                    ],
+                    "primary": {
+                        "id": "rtbassoc-c7e1b8ac",
+                        "attributes": {
+                            "id": "rtbassoc-c7e1b8ac",
+                            "route_table_id": "rtb-4de70826",
+                            "subnet_id": "subnet-188adf70"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_route_table_association.rta-subnet.1": {
+                    "type": "aws_route_table_association",
+                    "depends_on": [
+                        "aws_route_table.rtb",
+                        "aws_subnet.subnet.*"
+                    ],
+                    "primary": {
+                        "id": "rtbassoc-45e2bb2e",
+                        "attributes": {
+                            "id": "rtbassoc-45e2bb2e",
+                            "route_table_id": "rtb-4de70826",
+                            "subnet_id": "subnet-32ce4c48"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_s3_bucket.web_bucket": {
+                    "type": "aws_s3_bucket",
+                    "depends_on": [
+                        "aws_iam_user.write_user"
+                    ],
+                    "primary": {
+                        "id": "dev-tongalish123",
+                        "attributes": {
+                            "acceleration_status": "",
+                            "acl": "private",
+                            "arn": "arn:aws:s3:::dev-tongalish123",
+                            "bucket": "dev-tongalish123",
+                            "bucket_domain_name": "dev-tongalish123.s3.amazonaws.com",
+                            "bucket_regional_domain_name": "dev-tongalish123.s3.us-east-2.amazonaws.com",
+                            "cors_rule.#": "0",
+                            "force_destroy": "true",
+                            "hosted_zone_id": "Z2O1EMRO9K5GLX",
+                            "id": "dev-tongalish123",
+                            "logging.#": "0",
+                            "policy": "{\"Statement\":[{\"Action\":\"s3:GetObject\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"*\"},\"Resource\":\"arn:aws:s3:::dev-tongalish123/*\",\"Sid\":\"PublicReadForGetBucketObjects\"},{\"Action\":\"s3:*\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::211231947419:user/dev-s3-write-user\"},\"Resource\":[\"arn:aws:s3:::dev-tongalish123\",\"arn:aws:s3:::dev-tongalish123/*\"],\"Sid\":\"\"}],\"Version\":\"2008-10-17\"}",
+                            "region": "us-east-2",
+                            "replication_configuration.#": "0",
+                            "request_payer": "BucketOwner",
+                            "server_side_encryption_configuration.#": "0",
+                            "tags.%": "3",
+                            "tags.BillingCode": "ACCT0001",
+                            "tags.Environment": "dev",
+                            "tags.Name": "dev-web_bucket",
+                            "versioning.#": "1",
+                            "versioning.0.enabled": "false",
+                            "versioning.0.mfa_delete": "false",
+                            "website.#": "0"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_s3_bucket_object.graphic": {
+                    "type": "aws_s3_bucket_object",
+                    "depends_on": [
+                        "aws_s3_bucket.web_bucket"
+                    ],
+                    "primary": {
+                        "id": "/website/noau.jpg",
+                        "attributes": {
+                            "acl": "private",
+                            "bucket": "dev-tongalish123",
+                            "cache_control": "",
+                            "content_disposition": "",
+                            "content_encoding": "",
+                            "content_language": "",
+                            "content_type": "binary/octet-stream",
+                            "etag": "1f0fa84b4c6fc11da9e63bf81428ec50",
+                            "id": "/website/noau.jpg",
+                            "key": "/website/noau.jpg",
+                            "server_side_encryption": "",
+                            "source": "./noau.jpg",
+                            "storage_class": "STANDARD",
+                            "tags.%": "0",
+                            "version_id": "",
+                            "website_redirect": ""
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_s3_bucket_object.website": {
+                    "type": "aws_s3_bucket_object",
+                    "depends_on": [
+                        "aws_s3_bucket.web_bucket"
+                    ],
+                    "primary": {
+                        "id": "/website/index.html",
+                        "attributes": {
+                            "acl": "private",
+                            "bucket": "dev-tongalish123",
+                            "cache_control": "",
+                            "content_disposition": "",
+                            "content_encoding": "",
+                            "content_language": "",
+                            "content_type": "binary/octet-stream",
+                            "etag": "4d8c1fa99236330e7ae4479d9cad2758",
+                            "id": "/website/index.html",
+                            "key": "/website/index.html",
+                            "server_side_encryption": "",
+                            "source": "./index.html",
+                            "storage_class": "STANDARD",
+                            "tags.%": "0",
+                            "version_id": "",
+                            "website_redirect": ""
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_security_group.elb-sg": {
+                    "type": "aws_security_group",
+                    "depends_on": [
+                        "aws_vpc.vpc"
+                    ],
+                    "primary": {
+                        "id": "sg-ea034480",
+                        "attributes": {
+                            "arn": "arn:aws:ec2:us-east-2:211231947419:security-group/sg-ea034480",
+                            "description": "Managed by Terraform",
+                            "egress.#": "1",
+                            "egress.482069346.cidr_blocks.#": "1",
+                            "egress.482069346.cidr_blocks.0": "0.0.0.0/0",
+                            "egress.482069346.description": "",
+                            "egress.482069346.from_port": "0",
+                            "egress.482069346.ipv6_cidr_blocks.#": "0",
+                            "egress.482069346.prefix_list_ids.#": "0",
+                            "egress.482069346.protocol": "-1",
+                            "egress.482069346.security_groups.#": "0",
+                            "egress.482069346.self": "false",
+                            "egress.482069346.to_port": "0",
+                            "id": "sg-ea034480",
+                            "ingress.#": "1",
+                            "ingress.2214680975.cidr_blocks.#": "1",
+                            "ingress.2214680975.cidr_blocks.0": "0.0.0.0/0",
+                            "ingress.2214680975.description": "",
+                            "ingress.2214680975.from_port": "80",
+                            "ingress.2214680975.ipv6_cidr_blocks.#": "0",
+                            "ingress.2214680975.protocol": "tcp",
+                            "ingress.2214680975.security_groups.#": "0",
+                            "ingress.2214680975.self": "false",
+                            "ingress.2214680975.to_port": "80",
+                            "name": "nginx_elb_sg",
+                            "owner_id": "211231947419",
+                            "revoke_rules_on_delete": "false",
+                            "tags.%": "3",
+                            "tags.BillingCode": "ACCT0001",
+                            "tags.Environment": "dev",
+                            "tags.Name": "dev-elb-sg",
+                            "vpc_id": "vpc-619cbd09"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 600000000000,
+                                "delete": 600000000000
+                            },
+                            "schema_version": "1"
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_security_group.nginx-sg": {
+                    "type": "aws_security_group",
+                    "depends_on": [
+                        "aws_vpc.vpc"
+                    ],
+                    "primary": {
+                        "id": "sg-f9024593",
+                        "attributes": {
+                            "arn": "arn:aws:ec2:us-east-2:211231947419:security-group/sg-f9024593",
+                            "description": "Managed by Terraform",
+                            "egress.#": "1",
+                            "egress.482069346.cidr_blocks.#": "1",
+                            "egress.482069346.cidr_blocks.0": "0.0.0.0/0",
+                            "egress.482069346.description": "",
+                            "egress.482069346.from_port": "0",
+                            "egress.482069346.ipv6_cidr_blocks.#": "0",
+                            "egress.482069346.prefix_list_ids.#": "0",
+                            "egress.482069346.protocol": "-1",
+                            "egress.482069346.security_groups.#": "0",
+                            "egress.482069346.self": "false",
+                            "egress.482069346.to_port": "0",
+                            "id": "sg-f9024593",
+                            "ingress.#": "2",
+                            "ingress.2524386204.cidr_blocks.#": "1",
+                            "ingress.2524386204.cidr_blocks.0": "10.1.0.0/16",
+                            "ingress.2524386204.description": "",
+                            "ingress.2524386204.from_port": "80",
+                            "ingress.2524386204.ipv6_cidr_blocks.#": "0",
+                            "ingress.2524386204.protocol": "tcp",
+                            "ingress.2524386204.security_groups.#": "0",
+                            "ingress.2524386204.self": "false",
+                            "ingress.2524386204.to_port": "80",
+                            "ingress.2541437006.cidr_blocks.#": "1",
+                            "ingress.2541437006.cidr_blocks.0": "0.0.0.0/0",
+                            "ingress.2541437006.description": "",
+                            "ingress.2541437006.from_port": "22",
+                            "ingress.2541437006.ipv6_cidr_blocks.#": "0",
+                            "ingress.2541437006.protocol": "tcp",
+                            "ingress.2541437006.security_groups.#": "0",
+                            "ingress.2541437006.self": "false",
+                            "ingress.2541437006.to_port": "22",
+                            "name": "nginx_sg",
+                            "owner_id": "211231947419",
+                            "revoke_rules_on_delete": "false",
+                            "tags.%": "3",
+                            "tags.BillingCode": "ACCT0001",
+                            "tags.Environment": "dev",
+                            "tags.Name": "dev-nginx-sg",
+                            "vpc_id": "vpc-619cbd09"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 600000000000,
+                                "delete": 600000000000
+                            },
+                            "schema_version": "1"
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_subnet.subnet.0": {
+                    "type": "aws_subnet",
+                    "depends_on": [
+                        "aws_vpc.vpc",
+                        "data.aws_availability_zones.available"
+                    ],
+                    "primary": {
+                        "id": "subnet-188adf70",
+                        "attributes": {
+                            "assign_ipv6_address_on_creation": "false",
+                            "availability_zone": "us-east-2a",
+                            "cidr_block": "10.1.1.0/24",
+                            "id": "subnet-188adf70",
+                            "map_public_ip_on_launch": "true",
+                            "tags.%": "3",
+                            "tags.BillingCode": "ACCT0001",
+                            "tags.Environment": "dev",
+                            "tags.Name": "dev-subnet-1",
+                            "vpc_id": "vpc-619cbd09"
+                        },
+                        "meta": {
+                            "schema_version": "1"
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_subnet.subnet.1": {
+                    "type": "aws_subnet",
+                    "depends_on": [
+                        "aws_vpc.vpc",
+                        "data.aws_availability_zones.available"
+                    ],
+                    "primary": {
+                        "id": "subnet-32ce4c48",
+                        "attributes": {
+                            "assign_ipv6_address_on_creation": "false",
+                            "availability_zone": "us-east-2b",
+                            "cidr_block": "10.1.2.0/24",
+                            "id": "subnet-32ce4c48",
+                            "map_public_ip_on_launch": "true",
+                            "tags.%": "3",
+                            "tags.BillingCode": "ACCT0001",
+                            "tags.Environment": "dev",
+                            "tags.Name": "dev-subnet-2",
+                            "vpc_id": "vpc-619cbd09"
+                        },
+                        "meta": {
+                            "schema_version": "1"
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "aws_vpc.vpc": {
+                    "type": "aws_vpc",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "vpc-619cbd09",
+                        "attributes": {
+                            "assign_generated_ipv6_cidr_block": "false",
+                            "cidr_block": "10.1.0.0/16",
+                            "default_network_acl_id": "acl-ec262a84",
+                            "default_route_table_id": "rtb-29e90642",
+                            "default_security_group_id": "sg-f80f4892",
+                            "dhcp_options_id": "dopt-1effb477",
+                            "enable_dns_hostnames": "false",
+                            "enable_dns_support": "true",
+                            "id": "vpc-619cbd09",
+                            "instance_tenancy": "default",
+                            "main_route_table_id": "rtb-29e90642",
+                            "tags.%": "3",
+                            "tags.BillingCode": "ACCT0001",
+                            "tags.Environment": "dev",
+                            "tags.Name": "dev-vpc"
+                        },
+                        "meta": {
+                            "schema_version": "1"
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                },
+                "azurerm_dns_cname_record.elb": {
+                    "type": "azurerm_dns_cname_record",
+                    "depends_on": [
+                        "aws_elb.web"
+                    ],
+                    "primary": {
+                        "id": "/subscriptions/fabfe1d3-22bf-4474-bfde-0a3d37c93cfd/resourceGroups/DockerizeDCT/providers/Microsoft.Network/dnszones/atdc.ml/CNAME/dev-web",
+                        "attributes": {
+                            "id": "/subscriptions/fabfe1d3-22bf-4474-bfde-0a3d37c93cfd/resourceGroups/DockerizeDCT/providers/Microsoft.Network/dnszones/atdc.ml/CNAME/dev-web",
+                            "name": "dev-web",
+                            "record": "dev-nginx-elb-1584869196.us-east-2.elb.amazonaws.com",
+                            "resource_group_name": "DockerizeDCT",
+                            "tags.%": "3",
+                            "tags.BillingCode": "ACCT0001",
+                            "tags.Environment": "dev",
+                            "tags.Name": "dev-web",
+                            "ttl": "30",
+                            "zone_name": "atdc.ml"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.azurerm.arm-1"
+                },
+                "data.aws_availability_zones.available": {
+                    "type": "aws_availability_zones",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "2018-07-06 20:20:26.8864623 +0000 UTC",
+                        "attributes": {
+                            "id": "2018-07-06 20:20:26.8864623 +0000 UTC",
+                            "names.#": "3",
+                            "names.0": "us-east-2a",
+                            "names.1": "us-east-2b",
+                            "names.2": "us-east-2c"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": "provider.aws"
+                }
+            },
+            "depends_on": []
+        }
+    ]
+}

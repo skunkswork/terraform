@@ -1,0 +1,1 @@
+terraform plan -var-file="..\terraform.tfvars" -var-file=".\Development\development.tfvars" -state=".\Development\dev.state"
